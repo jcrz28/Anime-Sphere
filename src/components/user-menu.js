@@ -1,14 +1,20 @@
+import AuthContext from "../context/auth-context";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
+import Login from "@mui/icons-material/Login";
 import Logout from "@mui/icons-material/Logout";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import React from "react";
 import Settings from "@mui/icons-material/Settings";
 import Tooltip from "@mui/material/Tooltip";
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 
 const UserMenu = () => {
+	const authCtx = useContext(AuthContext);
+	const navigate = useNavigate();
 	const [menuAnchorEl, setMenuAnchorEl] = React.useState(null);
 
 	const isMenuOpen = Boolean(menuAnchorEl);
@@ -18,6 +24,17 @@ const UserMenu = () => {
 	};
 	const handleMenuClose = () => {
 		setMenuAnchorEl(null);
+	};
+
+	const handleLogout = () => {
+		authCtx.onLogout();
+		navigate("/");
+		handleMenuClose();
+	};
+
+	const handleSignIn = () => {
+		navigate("/auth");
+		handleMenuClose();
 	};
 
 	return (
@@ -80,12 +97,21 @@ const UserMenu = () => {
 					</ListItemIcon>
 					Settings
 				</MenuItem>
-				<MenuItem>
-					<ListItemIcon>
-						<Logout fontSize="small" />
-					</ListItemIcon>
-					Logout
-				</MenuItem>
+				{authCtx.isLoggedIn ? (
+					<MenuItem onClick={handleLogout}>
+						<ListItemIcon>
+							<Logout fontSize="small" />
+						</ListItemIcon>
+						Logout
+					</MenuItem>
+				) : (
+					<MenuItem onClick={handleSignIn}>
+						<ListItemIcon>
+							<Login fontSize="small" />
+						</ListItemIcon>
+						Sign In
+					</MenuItem>
+				)}
 			</Menu>
 		</React.Fragment>
 	);
