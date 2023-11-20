@@ -12,7 +12,7 @@ import JumpPageInput from "./jump-page-input";
 import Pagination from "@mui/material/Pagination";
 import useHttpClient from "../hook/http-hook";
 
-const JikanAnimeList = (props) => {
+const JikanAnimeQuery = (props) => {
 	const [jikanAnimePage, setJikanAnimePage] = useState(1);
 	const [jikanAnimeTotalPages, setJikanAnimeTotalPages] = useState(1);
 	const [jikanLoadedAnimes, setJikanLoadedAnimes] = useState([]);
@@ -110,4 +110,4 @@ const JikanAnimeList = (props) => {
 	);
 };
 
-export default JikanAnimeList;
+export default JikanAnimeQuery;
