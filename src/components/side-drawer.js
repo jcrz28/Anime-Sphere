@@ -26,7 +26,7 @@ const SideDrawer = (props) => {
 			open={props.isDrawerOpen}
 		>
 			<DRAWER_HEADER>
-				<IconButton onClick={props.handleDrawerClose}>
+				<IconButton onClick={() => props.setIsDrawerOpen(false)}>
 					{theme.direction === "ltr" ? (
 						<ChevronLeftIcon />
 					) : (

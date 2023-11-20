@@ -12,6 +12,8 @@ import MenuIcon from "@mui/icons-material/Menu";
 import MuiAppBar from "@mui/material/AppBar";
 import SearchBar from "./search-bar";
 import SideDrawer from "./side-drawer";
+import { ThemeContext } from "../context/theme-context";
+import ThemeToggleSwitch from "./theme-toggle-switch";
 import Toolbar from "@mui/material/Toolbar";
 import UserMenu from "./user-menu";
 import { styled } from "@mui/material/styles";
@@ -53,18 +55,11 @@ const AppBar = styled(MuiAppBar, {
 }));
 
 const MainContent = () => {
+	const { toggleTheme } = React.useContext(ThemeContext);
 	const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
 
-	const handleDrawerOpen = () => {
-		setIsDrawerOpen(true);
-	};
-
-	const handleDrawerClose = () => {
-		setIsDrawerOpen(false);
-	};
-
 	return (
-		<React.Fragment>
+		<ThemeContext.Provider value={{ toggleTheme }}>
 			<Box sx={{ display: "flex" }}>
 				<CssBaseline />
 				<AppBar position="fixed" open={isDrawerOpen}>
@@ -72,18 +67,21 @@ const MainContent = () => {
 						<IconButton
 							color="inherit"
 							aria-label="open drawer"
-							onClick={handleDrawerOpen}
+							onClick={() => setIsDrawerOpen(true)}
 							edge="start"
 							sx={{
 								mr: 2,
-								...(isDrawerOpen && { display: "none" }),
+								...(isDrawerOpen && {
+									display: "none",
+								}),
 							}}
 						>
 							<MenuIcon />
 						</IconButton>
 						<SearchBar />
 						<Box sx={{ flexGrow: 1 }} />
-						<Box sx={{ display: { md: "flex" } }}>
+						<Box sx={{ display: "flex" }}>
+							<ThemeToggleSwitch />
 							<UserMenu />
 						</Box>
 					</Toolbar>
@@ -91,21 +89,16 @@ const MainContent = () => {
 				<SideDrawer
 					setIsDrawerOpen={setIsDrawerOpen}
 					isDrawerOpen={isDrawerOpen}
-					handleDrawerClose={handleDrawerClose}
 				/>
 				<Main open={isDrawerOpen}>
 					<DRAWER_HEADER />
 					<Routes>
-						<Route>
-							<Route path="/auth" element={<Authentication />} />
-						</Route>
-						<Route>
-							<Route path="/" element={<JikanAnimeList />} />
-						</Route>
+						<Route path="/auth" element={<Authentication />} />
+						<Route path="/" element={<JikanAnimeList />} />
 					</Routes>
 				</Main>
 			</Box>
-		</React.Fragment>
+		</ThemeContext.Provider>
 	);
 };
 

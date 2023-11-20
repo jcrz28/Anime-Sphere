@@ -1,5 +1,4 @@
 import React, { useContext, useState } from "react";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 import AuthContext from "../context/auth-context";
 import Avatar from "@mui/material/Avatar";
@@ -17,7 +16,6 @@ import useHttpClient from "../hook/http-hook";
 import { useNavigate } from "react-router-dom";
 
 const Authentication = () => {
-	const defaultTheme = createTheme();
 	const authCtx = useContext(AuthContext);
 
 	const { isLoading, request } = useHttpClient();
@@ -61,109 +59,107 @@ const Authentication = () => {
 	};
 
 	return (
-		<ThemeProvider theme={defaultTheme}>
-			<Container component="main" maxWidth="xs">
-				<CssBaseline />
-				{isLoading && (
-					<Box
-						sx={{
-							display: "flex",
-							justifyContent: "center",
-						}}
-					>
-						<CircularProgress />
-					</Box>
-				)}
+		<Container component="main" maxWidth="xs">
+			<CssBaseline />
+			{isLoading && (
 				<Box
 					sx={{
-						marginTop: 8,
 						display: "flex",
-						flexDirection: "column",
-						alignItems: "center",
+						justifyContent: "center",
 					}}
 				>
-					<Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-						<LockOutlinedIcon />
-					</Avatar>
-					<Typography component="h1" variant="h5">
-						{isLogin ? "Log in" : "Sign Up"}
-					</Typography>
-					<Box
-						component="form"
-						onSubmit={handleSubmit}
-						noValidate
-						sx={{ mt: 1 }}
-					>
-						<TextField
-							margin="normal"
-							required
-							fullWidth
-							id="username"
-							label="Username"
-							name="username"
-							autoComplete="username"
-							autoFocus
-							error={error}
-						/>
-						<TextField
-							margin="normal"
-							required
-							fullWidth
-							name="password"
-							label="Password"
-							type="password"
-							id="password"
-							autoComplete="current-password"
-							error={error}
-						/>
-						{!isLogin && (
-							<TextField
-								margin="normal"
-								required
-								fullWidth
-								name="confirm_password"
-								label="Confirm Password"
-								type="password"
-								id="confirm_password"
-								error={error}
-							/>
-						)}
-
-						{error && (
-							<Typography
-								variant="body2"
-								color="error"
-								align="center"
-								sx={{ mt: 2 }}
-							>
-								{error}
-							</Typography>
-						)}
-						<Button
-							type="submit"
-							fullWidth
-							variant="contained"
-							sx={{ mt: 3, mb: 2 }}
-						>
-							Sign In
-						</Button>
-						<Grid container>
-							<Grid item>
-								<Link
-									href="#"
-									variant="body2"
-									onClick={switchAuthModeHandler}
-								>
-									{isLogin
-										? "Don't have an account? Sign Up"
-										: "Already have an account? Log In"}
-								</Link>
-							</Grid>
-						</Grid>
-					</Box>
+					<CircularProgress />
 				</Box>
-			</Container>
-		</ThemeProvider>
+			)}
+			<Box
+				sx={{
+					marginTop: 8,
+					display: "flex",
+					flexDirection: "column",
+					alignItems: "center",
+				}}
+			>
+				<Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+					<LockOutlinedIcon />
+				</Avatar>
+				<Typography component="h1" variant="h5">
+					{isLogin ? "Log in" : "Sign Up"}
+				</Typography>
+				<Box
+					component="form"
+					onSubmit={handleSubmit}
+					noValidate
+					sx={{ mt: 1 }}
+				>
+					<TextField
+						margin="normal"
+						required
+						fullWidth
+						id="username"
+						label="Username"
+						name="username"
+						autoComplete="username"
+						autoFocus
+						error={error}
+					/>
+					<TextField
+						margin="normal"
+						required
+						fullWidth
+						name="password"
+						label="Password"
+						type="password"
+						id="password"
+						autoComplete="current-password"
+						error={error}
+					/>
+					{!isLogin && (
+						<TextField
+							margin="normal"
+							required
+							fullWidth
+							name="confirm_password"
+							label="Confirm Password"
+							type="password"
+							id="confirm_password"
+							error={error}
+						/>
+					)}
+
+					{error && (
+						<Typography
+							variant="body2"
+							color="error"
+							align="center"
+							sx={{ mt: 2 }}
+						>
+							{error}
+						</Typography>
+					)}
+					<Button
+						type="submit"
+						fullWidth
+						variant="contained"
+						sx={{ mt: 3, mb: 2 }}
+					>
+						Sign In
+					</Button>
+					<Grid container>
+						<Grid item>
+							<Link
+								href="#"
+								variant="body2"
+								onClick={switchAuthModeHandler}
+							>
+								{isLogin
+									? "Don't have an account? Sign Up"
+									: "Already have an account? Log In"}
+							</Link>
+						</Grid>
+					</Grid>
+				</Box>
+			</Box>
+		</Container>
 	);
 };
 
