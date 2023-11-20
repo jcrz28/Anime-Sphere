@@ -1,8 +1,12 @@
+import {
+	BASE_API_URL,
+	CURRENT_SEASON_API_URL,
+	DEFAULT_SORT_QUERY,
+} from "../utils/helper";
 import React, { useCallback, useEffect, useState } from "react";
 
 import AnimeCard from "./anime-card";
 import Box from "@mui/material/Box";
-import { CURRENT_SEASON_JIKAN_URL } from "../utils/helper";
 import CircularProgress from "@mui/material/CircularProgress";
 import JumpPageInput from "./jump-page-input";
 import Pagination from "@mui/material/Pagination";
@@ -16,7 +20,9 @@ const JikanAnimeList = (props) => {
 	const { isLoading, request } = useHttpClient();
 
 	const getUrl = () => {
-		return `${CURRENT_SEASON_JIKAN_URL}?page=${jikanAnimePage}`;
+		return props.enteredAnime
+			? `${BASE_API_URL}/anime?q=${props.enteredAnime}&${DEFAULT_SORT_QUERY}&page=${jikanAnimePage}`
+			: `${CURRENT_SEASON_API_URL}?page=${jikanAnimePage}`;
 	};
 
 	const fetchJikanAnime = useCallback(async () => {
@@ -31,7 +37,7 @@ const JikanAnimeList = (props) => {
 			alert(error.message);
 		}
 		// eslint-disable-next-line
-	}, [jikanAnimePage, request]);
+	}, [jikanAnimePage, request, props.trigger]);
 
 	useEffect(() => {
 		fetchJikanAnime();
@@ -39,7 +45,7 @@ const JikanAnimeList = (props) => {
 
 	useEffect(() => {
 		setJikanAnimePage(1);
-	}, [props.triggered]);
+	}, [props.trigger]);
 
 	const handlePageChange = (event, page) => {
 		setJikanAnimePage(page);

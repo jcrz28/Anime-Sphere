@@ -1,13 +1,12 @@
-import * as React from "react";
-
 import { DRAWER_HEADER, DRAWER_WIDTH } from "../utils/helper";
+import React, { useState } from "react";
 import { Route, Routes } from "react-router-dom";
 
 import Authentication from "./authentication";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import IconButton from "@mui/material/IconButton";
-import JikanAnimeList from "./jikan-anime-list";
+import JikanAnimeList from "./jikan-anime-query";
 import MenuIcon from "@mui/icons-material/Menu";
 import MuiAppBar from "@mui/material/AppBar";
 import SearchBar from "./search-bar";
@@ -57,7 +56,15 @@ const AppBar = styled(MuiAppBar, {
 
 const MainContent = () => {
 	const { toggleTheme } = React.useContext(ThemeContext);
+
 	const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
+	const [enteredAnime, setEnteredAnime] = useState("");
+	const [triggerJikanAnimeQuery, setTriggerJikanAnimeQuery] = useState(0);
+
+	const submitHandler = () => {
+		window.scrollTo(0, 0);
+		setTriggerJikanAnimeQuery(triggerJikanAnimeQuery + 1);
+	};
 
 	return (
 		<ThemeContext.Provider value={{ toggleTheme }}>
@@ -87,7 +94,10 @@ const MainContent = () => {
 						>
 							Anime Sphere
 						</Typography>
-						<SearchBar />
+						<SearchBar
+							onSubmit={submitHandler}
+							setEnteredAnime={setEnteredAnime}
+						/>
 						<Box sx={{ flexGrow: 1 }} />
 						<Box sx={{ display: "flex" }}>
 							<ThemeToggleSwitch />
@@ -103,7 +113,15 @@ const MainContent = () => {
 					<DRAWER_HEADER />
 					<Routes>
 						<Route path="/auth" element={<Authentication />} />
-						<Route path="/" element={<JikanAnimeList />} />
+						<Route
+							path="/"
+							element={
+								<JikanAnimeList
+									enteredAnime={enteredAnime}
+									trigger={triggerJikanAnimeQuery}
+								/>
+							}
+						/>
 					</Routes>
 				</Main>
 			</Box>

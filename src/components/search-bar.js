@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import { alpha, styled } from "@mui/material/styles";
 
 import InputBase from "@mui/material/InputBase";
@@ -43,16 +44,31 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 	},
 }));
 
-export default function SearchBar() {
+const SearchBar = (props) => {
+	const [inputAnime, setInputAnime] = useState("");
+
+	const handleSubmit = (event) => {
+		event.preventDefault();
+		props.setEnteredAnime(inputAnime);
+		props.onSubmit();
+		setInputAnime("");
+	};
+
 	return (
-		<Search>
-			<SearchIconWrapper>
-				<SearchIcon />
-			</SearchIconWrapper>
-			<StyledInputBase
-				placeholder="Search…"
-				inputProps={{ "aria-label": "search" }}
-			/>
-		</Search>
+		<form onSubmit={handleSubmit}>
+			<Search>
+				<SearchIconWrapper>
+					<SearchIcon />
+				</SearchIconWrapper>
+				<StyledInputBase
+					placeholder="Search…"
+					inputProps={{ "aria-label": "search" }}
+					value={inputAnime}
+					onChange={(e) => setInputAnime(e.target.value)}
+				/>
+			</Search>
+		</form>
 	);
-}
+};
+
+export default SearchBar;
