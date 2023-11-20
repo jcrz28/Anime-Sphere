@@ -9,13 +9,18 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import CustomDialog from "./custom-dialog.js";
 import Divider from "@mui/material/Divider";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
 
 const AnimeCard = (props) => {
+	const theme = useTheme();
 	const authCtx = useContext(AuthContext);
+
 	const [isModalOpen, setIsModalOpen] = useState(false);
+	const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
 	return (
-		<Box sx={{ my: 2, mx: 4 }}>
+		<Box sx={{ my: 2, ...(isSmallScreen ? { mx: 0 } : { mx: 4 }) }}>
 			<Card sx={{ width: 300, height: 1 }}>
 				<CardContent>
 					<CardMedia
