@@ -23,16 +23,16 @@ const CustomDialog = (props) => {
 	return (
 		<React.Fragment>
 			<BootstrapDialog
-				onClose={() => props.setIsModalOpen(false)}
+				onClose={() => props.setIsDialogOpen(false)}
 				aria-labelledby="customized-dialog-title"
-				open={props.isModalOpen}
+				open={props.isDialogOpen}
 			>
 				<DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
 					{props.title}
 				</DialogTitle>
 				<IconButton
 					aria-label="close"
-					onClick={() => props.setIsModalOpen(false)}
+					onClick={() => props.setIsDialogOpen(false)}
 					sx={{
 						position: "absolute",
 						right: 8,
@@ -48,7 +48,7 @@ const CustomDialog = (props) => {
 				<DialogActions>
 					<Button
 						autoFocus
-						onClick={() => props.setIsModalOpen(false)}
+						onClick={() => props.setIsDialogOpen(false)}
 					>
 						Close
 					</Button>

@@ -16,7 +16,7 @@ const AnimeCard = (props) => {
 	const theme = useTheme();
 	const authCtx = useContext(AuthContext);
 
-	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [isDialogOpen, setIsDialogOpen] = useState(false);
 	const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
 	return (
@@ -41,7 +41,7 @@ const AnimeCard = (props) => {
 							{!props.danger && (
 								<Button
 									variant="contained"
-									onClick={() => setIsModalOpen(true)}
+									onClick={() => setIsDialogOpen(true)}
 								>
 									Synopsis
 								</Button>
@@ -64,11 +64,11 @@ const AnimeCard = (props) => {
 									Delete
 								</Button>
 							)}
-							{isModalOpen && (
+							{isDialogOpen && (
 								<CustomDialog
 									title={props.anime.title}
-									isModalOpen={isModalOpen}
-									setIsModalOpen={setIsModalOpen}
+									isDialogOpen={isDialogOpen}
+									setIsDialogOpen={setIsDialogOpen}
 									synopsis={props.anime.synopsis}
 								/>
 							)}
