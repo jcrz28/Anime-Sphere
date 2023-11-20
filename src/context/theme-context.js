@@ -4,7 +4,7 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 export const ThemeContext = createContext({ toggleTheme: () => {} });
 
 export function ThemeContextProvider(props) {
-	const [mode, setMode] = useState("light");
+	const [mode, setMode] = useState("dark");
 
 	const toggleTheme = useCallback(() => {
 		setMode((prevMode) => (prevMode === "light" ? "dark" : "light"));

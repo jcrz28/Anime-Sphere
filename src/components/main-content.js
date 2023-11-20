@@ -15,6 +15,7 @@ import SideDrawer from "./side-drawer";
 import { ThemeContext } from "../context/theme-context";
 import ThemeToggleSwitch from "./theme-toggle-switch";
 import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
 import UserMenu from "./user-menu";
 import { styled } from "@mui/material/styles";
 
@@ -78,6 +79,14 @@ const MainContent = () => {
 						>
 							<MenuIcon />
 						</IconButton>
+						<Typography
+							variant="h6"
+							noWrap
+							component="div"
+							sx={{ display: { xs: "none", sm: "block" } }}
+						>
+							Anime Sphere
+						</Typography>
 						<SearchBar />
 						<Box sx={{ flexGrow: 1 }} />
 						<Box sx={{ display: "flex" }}>
