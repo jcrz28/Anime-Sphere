@@ -1,5 +1,6 @@
 import AuthContext from "../context/auth-context";
 import Avatar from "@mui/material/Avatar";
+import { Home } from "@mui/icons-material";
 import IconButton from "@mui/material/IconButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import Login from "@mui/icons-material/Login";
@@ -37,17 +38,21 @@ const UserMenu = () => {
 		handleMenuClose();
 	};
 
+	const handleHomePage = () => {
+		navigate("/");
+		handleMenuClose();
+	};
+
 	return (
 		<React.Fragment>
 			<Tooltip title="Account settings">
 				<IconButton
 					onClick={handleMenuOpen}
 					size="small"
-					sx={{ ml: 2 }}
 					aria-controls={isMenuOpen ? "account-menu" : undefined}
 					aria-haspopup="true"
 				>
-					<Avatar sx={{ width: 32, height: 32 }}>JC</Avatar>
+					<Avatar sx={{ width: 32, height: 32 }} />
 				</IconButton>
 			</Tooltip>
 			<Menu
@@ -91,19 +96,27 @@ const UserMenu = () => {
 				}}
 				getContentAnchorEl={null}
 			>
-				<MenuItem>
+				<MenuItem onClick={handleHomePage}>
 					<ListItemIcon>
-						<Settings fontSize="small" />
+						<Home fontSize="small" />
 					</ListItemIcon>
-					Settings
+					Home
 				</MenuItem>
 				{authCtx.isLoggedIn ? (
-					<MenuItem onClick={handleLogout}>
-						<ListItemIcon>
-							<Logout fontSize="small" />
-						</ListItemIcon>
-						Logout
-					</MenuItem>
+					<React.Fragment>
+						<MenuItem>
+							<ListItemIcon>
+								<Settings fontSize="small" />
+							</ListItemIcon>
+							Settings
+						</MenuItem>
+						<MenuItem onClick={handleLogout}>
+							<ListItemIcon>
+								<Logout fontSize="small" />
+							</ListItemIcon>
+							Logout
+						</MenuItem>
+					</React.Fragment>
 				) : (
 					<MenuItem onClick={handleSignIn}>
 						<ListItemIcon>

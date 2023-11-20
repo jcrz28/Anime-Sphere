@@ -7,6 +7,7 @@ import Authentication from "./authentication";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import IconButton from "@mui/material/IconButton";
+import JikanAnimeList from "./jikan-anime-list";
 import MenuIcon from "@mui/icons-material/Menu";
 import MuiAppBar from "@mui/material/AppBar";
 import SearchBar from "./search-bar";
@@ -97,6 +98,9 @@ export default function PersistentDrawerLeft() {
 					<Routes>
 						<Route>
 							<Route path="/auth" element={<Authentication />} />
+						</Route>
+						<Route>
+							<Route path="/" element={<JikanAnimeList />} />
 						</Route>
 					</Routes>
 				</Main>
