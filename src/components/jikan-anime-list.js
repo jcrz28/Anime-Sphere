@@ -4,13 +4,15 @@ import AnimeCard from "./anime-card";
 import Box from "@mui/material/Box";
 import { CURRENT_SEASON_JIKAN_URL } from "../utils/helper";
 import CircularProgress from "@mui/material/CircularProgress";
-import { Pagination } from "@mui/material";
+import JumpPageInput from "./jump-page-input";
+import Pagination from "@mui/material/Pagination";
 import useHttpClient from "../hook/http-hook";
 
 const JikanAnimeList = (props) => {
 	const [jikanAnimePage, setJikanAnimePage] = useState(1);
 	const [jikanAnimeTotalPages, setJikanAnimeTotalPages] = useState(1);
 	const [jikanLoadedAnimes, setJikanLoadedAnimes] = useState([]);
+
 	const { isLoading, request } = useHttpClient();
 
 	const getUrl = () => {
@@ -38,6 +40,10 @@ const JikanAnimeList = (props) => {
 	useEffect(() => {
 		setJikanAnimePage(1);
 	}, [props.triggered]);
+
+	const handlePageChange = (event, page) => {
+		setJikanAnimePage(page);
+	};
 
 	return (
 		<Box
@@ -74,17 +80,26 @@ const JikanAnimeList = (props) => {
 					/>
 				))}
 			</Box>
-			<Pagination
+			<Box
 				sx={{
 					display: "flex",
-					flexWrap: "wrap",
 					justifyContent: "center",
-					width: "100%",
+					alignItems: "center",
+					flexDirection: "column",
+					mt: 2,
 				}}
-				count={jikanAnimeTotalPages}
-				color="primary"
-				onChange={(event, page) => setJikanAnimePage(page)}
-			/>
+			>
+				<Pagination
+					sx={{ mr: 2 }}
+					count={jikanAnimeTotalPages}
+					color="primary"
+					onChange={handlePageChange}
+				/>
+				<JumpPageInput
+					totalPages={jikanAnimeTotalPages}
+					onPageChange={handlePageChange}
+				/>
+			</Box>
 		</Box>
 	);
 };
