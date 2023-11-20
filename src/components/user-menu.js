@@ -1,5 +1,6 @@
 import AuthContext from "../context/auth-context";
 import Avatar from "@mui/material/Avatar";
+import Box from "@mui/material/Box";
 import { Home } from "@mui/icons-material";
 import IconButton from "@mui/material/IconButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
@@ -103,7 +104,7 @@ const UserMenu = () => {
 					Home
 				</MenuItem>
 				{authCtx.isLoggedIn ? (
-					<React.Fragment>
+					<Box>
 						<MenuItem>
 							<ListItemIcon>
 								<Settings fontSize="small" />
@@ -116,7 +117,7 @@ const UserMenu = () => {
 							</ListItemIcon>
 							Logout
 						</MenuItem>
-					</React.Fragment>
+					</Box>
 				) : (
 					<MenuItem onClick={handleSignIn}>
 						<ListItemIcon>
