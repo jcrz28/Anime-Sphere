@@ -8,21 +8,20 @@ import React, { useCallback, useEffect, useState } from "react";
 import AnimeCard from "./anime-card";
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
-import JumpPageInput from "./jump-page-input";
-import Pagination from "@mui/material/Pagination";
+import CustomPagination from "./custom-pagination";
 import useHttpClient from "../hook/http-hook";
 
-const JikanAnimeQuery = (props) => {
-	const [jikanAnimePage, setJikanAnimePage] = useState(1);
-	const [jikanAnimeTotalPages, setJikanAnimeTotalPages] = useState(1);
-	const [jikanLoadedAnimes, setJikanLoadedAnimes] = useState([]);
+const JikanAnimeResult = (props) => {
+	const [page, setPage] = useState(1);
+	const [totalPages, setTotalPages] = useState(1);
+	const [loadedAnimes, setLoadedAnimes] = useState([]);
 
 	const { isLoading, request } = useHttpClient();
 
 	const getUrl = () => {
 		return props.enteredAnime
-			? `${BASE_API_URL}/anime?q=${props.enteredAnime}&${DEFAULT_SORT_QUERY}&page=${jikanAnimePage}`
-			: `${CURRENT_SEASON_API_URL}?page=${jikanAnimePage}`;
+			? `${BASE_API_URL}/anime?q=${props.enteredAnime}&${DEFAULT_SORT_QUERY}&page=${page}`
+			: `${CURRENT_SEASON_API_URL}?page=${page}`;
 	};
 
 	const fetchJikanAnime = useCallback(async () => {
@@ -31,24 +30,24 @@ const JikanAnimeQuery = (props) => {
 
 		try {
 			const response = await request(url);
-			setJikanLoadedAnimes(response.data);
-			setJikanAnimeTotalPages(response.pagination.last_visible_page);
+			setLoadedAnimes(response.data);
+			setTotalPages(response.pagination.last_visible_page);
 		} catch (error) {
 			alert(error.message);
 		}
 		// eslint-disable-next-line
-	}, [jikanAnimePage, request, props.trigger]);
+	}, [page, request, props.trigger]);
 
 	useEffect(() => {
 		fetchJikanAnime();
 	}, [fetchJikanAnime]);
 
 	useEffect(() => {
-		setJikanAnimePage(1);
+		setPage(1);
 	}, [props.trigger]);
 
 	const handlePageChange = (event, page) => {
-		setJikanAnimePage(page);
+		setPage(page);
 	};
 
 	return (
@@ -78,7 +77,7 @@ const JikanAnimeQuery = (props) => {
 					width: "100%",
 				}}
 			>
-				{jikanLoadedAnimes.map((anime) => (
+				{loadedAnimes.map((anime) => (
 					<AnimeCard
 						anime={anime}
 						danger={false}
@@ -95,14 +94,9 @@ const JikanAnimeQuery = (props) => {
 					mt: 2,
 				}}
 			>
-				<Pagination
-					sx={{ mr: 2 }}
-					count={jikanAnimeTotalPages}
-					color="primary"
-					onChange={handlePageChange}
-				/>
-				<JumpPageInput
-					totalPages={jikanAnimeTotalPages}
+				<CustomPagination
+					page={page}
+					totalPages={totalPages}
 					onPageChange={handlePageChange}
 				/>
 			</Box>
@@ -110,4 +104,4 @@ const JikanAnimeQuery = (props) => {
 	);
 };
 
-export default JikanAnimeQuery;
+export default JikanAnimeResult;

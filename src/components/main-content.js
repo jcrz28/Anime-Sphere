@@ -6,7 +6,7 @@ import Authentication from "./authentication";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import IconButton from "@mui/material/IconButton";
-import JikanAnimeQuery from "./jikan-anime-query";
+import JikanAnimeResult from "./jikan-anime-result";
 import MenuIcon from "@mui/icons-material/Menu";
 import MuiAppBar from "@mui/material/AppBar";
 import SearchBar from "./search-bar";
@@ -116,7 +116,7 @@ const MainContent = () => {
 						<Route
 							path="/"
 							element={
-								<JikanAnimeQuery
+								<JikanAnimeResult
 									enteredAnime={enteredAnime}
 									trigger={triggerJikanAnimeQuery}
 								/>
