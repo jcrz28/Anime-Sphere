@@ -11,7 +11,7 @@ export const DRAWER_HEADER = styled("div")(({ theme }) => ({
 	...theme.mixins.toolbar,
 }));
 
-export const RATINGS = [
+export const ANIME_RATINGS = [
 	{
 		g: "G - All Ages",
 		pg: "PG - Children",
@@ -21,7 +21,7 @@ export const RATINGS = [
 	},
 ];
 
-export const SCORES = [
+export const ANIME_SCORES = [
 	"0 - Avoid",
 	"1 - Poor",
 	"2 - Below Average",
