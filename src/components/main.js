@@ -52,7 +52,7 @@ const AppBar = styled(MuiAppBar, {
 	}),
 }));
 
-export default function PersistentDrawerLeft() {
+const MainContent = () => {
 	const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
 
 	const handleDrawerOpen = () => {
@@ -107,4 +107,6 @@ export default function PersistentDrawerLeft() {
 			</Box>
 		</React.Fragment>
 	);
-}
+};
+
+export default MainContent;
