@@ -46,10 +46,6 @@ const JikanAnimeResult = (props) => {
 		setPage(1);
 	}, [props.trigger]);
 
-	const handlePageChange = (event, page) => {
-		setPage(page);
-	};
-
 	return (
 		<Box
 			sx={{
@@ -85,21 +81,11 @@ const JikanAnimeResult = (props) => {
 					/>
 				))}
 			</Box>
-			<Box
-				sx={{
-					display: "flex",
-					justifyContent: "center",
-					alignItems: "center",
-					flexDirection: "column",
-					mt: 2,
-				}}
-			>
-				<CustomPagination
-					page={page}
-					totalPages={totalPages}
-					onPageChange={handlePageChange}
-				/>
-			</Box>
+			<CustomPagination
+				setPage={setPage}
+				page={page}
+				totalPages={totalPages}
+			/>
 		</Box>
 	);
 };

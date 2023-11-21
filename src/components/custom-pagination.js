@@ -9,6 +9,10 @@ import Pagination from "@mui/material/Pagination";
 const CustomPagination = (props) => {
 	const [jumpToPageInput, setJumpToPageInput] = useState("");
 
+	const handlePageChange = (event, page) => {
+		props.setPage(page);
+	};
+
 	const handleJumpToPage = (event) => {
 		const pageNumber = parseInt(jumpToPageInput);
 		if (
@@ -16,19 +20,27 @@ const CustomPagination = (props) => {
 			pageNumber >= 1 &&
 			pageNumber <= props.totalPages
 		) {
-			props.onPageChange(event, pageNumber);
+			handlePageChange(event, pageNumber);
 			setJumpToPageInput("");
 		}
 	};
 
 	return (
-		<React.Fragment>
+		<Box
+			sx={{
+				display: "flex",
+				justifyContent: "center",
+				alignItems: "center",
+				flexDirection: "column",
+				mt: 2,
+			}}
+		>
 			<Pagination
 				sx={{ mr: 2 }}
 				count={props.totalPages}
 				color="primary"
 				page={props.page}
-				onChange={props.onPageChange}
+				onChange={handlePageChange}
 				showFirstButton
 				showLastButton
 			/>
@@ -65,7 +77,7 @@ const CustomPagination = (props) => {
 					sx={{ mt: 1 }}
 				/>
 			</Box>
-		</React.Fragment>
+		</Box>
 	);
 };
 

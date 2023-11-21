@@ -3,13 +3,13 @@ import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import { Home } from "@mui/icons-material";
 import IconButton from "@mui/material/IconButton";
+import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import Login from "@mui/icons-material/Login";
 import Logout from "@mui/icons-material/Logout";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import React from "react";
-import Settings from "@mui/icons-material/Settings";
 import Tooltip from "@mui/material/Tooltip";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
@@ -36,6 +36,11 @@ const UserMenu = () => {
 
 	const handleSignIn = () => {
 		navigate("/auth");
+		handleMenuClose();
+	};
+
+	const handleLibraryPage = () => {
+		navigate(`/library/${authCtx.userId}`);
 		handleMenuClose();
 	};
 
@@ -105,11 +110,11 @@ const UserMenu = () => {
 				</MenuItem>
 				{authCtx.isLoggedIn ? (
 					<Box>
-						<MenuItem>
+						<MenuItem onClick={handleLibraryPage}>
 							<ListItemIcon>
-								<Settings fontSize="small" />
+								<LibraryBooksIcon fontSize="small" />
 							</ListItemIcon>
-							Settings
+							Library
 						</MenuItem>
 						<MenuItem onClick={handleLogout}>
 							<ListItemIcon>

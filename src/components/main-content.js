@@ -1,6 +1,6 @@
 import { DRAWER_HEADER, DRAWER_WIDTH } from "../utils/helper";
 import React, { useState } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 
 import Authentication from "./authentication";
 import Box from "@mui/material/Box";
@@ -15,6 +15,7 @@ import { ThemeContext } from "../context/theme-context";
 import ThemeToggleSwitch from "./theme-toggle-switch";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
+import UserAnimeResult from "./user-anime-result";
 import UserMenu from "./user-menu";
 import { styled } from "@mui/material/styles";
 
@@ -56,14 +57,19 @@ const AppBar = styled(MuiAppBar, {
 
 const MainContent = () => {
 	const { toggleTheme } = React.useContext(ThemeContext);
+	const location = useLocation();
 
 	const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
 	const [enteredAnime, setEnteredAnime] = useState("");
-	const [triggerJikanAnimeQuery, setTriggerJikanAnimeQuery] = useState(0);
+	const [triggerJikanAPI, setTriggerJikanAPI] = useState(0);
+	const [triggerAPI, setTriggerAPI] = useState(0);
 
 	const submitHandler = () => {
 		window.scrollTo(0, 0);
-		setTriggerJikanAnimeQuery(triggerJikanAnimeQuery + 1);
+
+		location.pathname === "/"
+			? setTriggerJikanAPI(triggerJikanAPI + 1)
+			: setTriggerAPI(triggerAPI + 1);
 	};
 
 	return (
@@ -118,7 +124,16 @@ const MainContent = () => {
 							element={
 								<JikanAnimeResult
 									enteredAnime={enteredAnime}
-									trigger={triggerJikanAnimeQuery}
+									trigger={triggerJikanAPI}
+								/>
+							}
+						/>
+						<Route
+							path="/library/:userId"
+							element={
+								<UserAnimeResult
+									enteredAnime={enteredAnime}
+									trigger={triggerAPI}
 								/>
 							}
 						/>
