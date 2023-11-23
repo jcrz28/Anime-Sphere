@@ -9,12 +9,12 @@ import useHttpClient from "../hook/http-hook";
 import { useParams } from "react-router-dom";
 
 const UserAnimeResult = () => {
-	const [page, setPage] = useState(1);
-	const [loadedAnimes, setLoadedAnimes] = useState([]);
-
 	const { userId } = useParams();
 	const { isLoading, request } = useHttpClient();
-	const { enteredAnime } = useContext(AnimeQueryContext);
+	const { enteredAnime, resetQuery } = useContext(AnimeQueryContext);
+
+	const [page, setPage] = useState(1);
+	const [loadedAnimes, setLoadedAnimes] = useState([]);
 
 	const ITEMS_PER_PAGE = 25;
 
@@ -44,6 +44,11 @@ const UserAnimeResult = () => {
 	useEffect(() => {
 		userAnimeHandler();
 	}, [userAnimeHandler]);
+
+	useEffect(() => {
+		resetQuery();
+		// eslint-disable-next-line
+	}, []); // Only needed on the first render
 
 	return (
 		<Box

@@ -14,17 +14,17 @@ import useHttpClient from "../hook/http-hook";
 
 const JikanAnimeResult = () => {
 	const { isLoading, request } = useHttpClient();
-	const { enteredAnime } = useContext(AnimeQueryContext);
+	const { enteredAnime, resetQuery } = useContext(AnimeQueryContext);
 
 	const [page, setPage] = useState(1);
 	const [totalPages, setTotalPages] = useState(1);
 	const [loadedAnimes, setLoadedAnimes] = useState([]);
 
-	const getUrl = () => {
+	const getUrl = useCallback(() => {
 		return enteredAnime
 			? `${BASE_API_URL}/anime?q=${enteredAnime}&${DEFAULT_SORT_QUERY}&page=${page}`
 			: `${CURRENT_SEASON_API_URL}?page=${page}&sfw`;
-	};
+	}, [enteredAnime, page]);
 
 	const jikanAnimeHandler = useCallback(async () => {
 		window.scrollTo(0, 0);
@@ -37,8 +37,7 @@ const JikanAnimeResult = () => {
 		} catch (error) {
 			alert(error.message);
 		}
-		// eslint-disable-next-line
-	}, [page, request, enteredAnime]);
+	}, [request, getUrl]);
 
 	useEffect(() => {
 		jikanAnimeHandler();
@@ -47,6 +46,11 @@ const JikanAnimeResult = () => {
 	useEffect(() => {
 		setPage(1);
 	}, [enteredAnime]);
+
+	useEffect(() => {
+		resetQuery();
+		// eslint-disable-next-line
+	}, []); // Only needed on the first render
 
 	return (
 		<Box
