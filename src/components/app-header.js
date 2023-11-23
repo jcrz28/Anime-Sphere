@@ -59,8 +59,10 @@ const AppHeader = (props) => {
 					setEnteredAnime={props.setEnteredAnime}
 				/>
 				<Box sx={{ flexGrow: 1 }} />
-				<Box sx={{ display: "flex" }}>
+				<Box sx={{ display: { xs: "none", md: "flex" } }}>
 					<ThemeToggleSwitch />
+				</Box>
+				<Box sx={{ display: "flex" }}>
 					<UserMenu />
 				</Box>
 			</Toolbar>

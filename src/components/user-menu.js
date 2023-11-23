@@ -14,12 +14,17 @@ import Logout from "@mui/icons-material/Logout";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import MoreIcon from "@mui/icons-material/MoreVert";
+import Switch from "@mui/material/Switch";
+import { ThemeContext } from "../context/theme-context";
 import Tooltip from "@mui/material/Tooltip";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "@mui/material/styles";
 
 const UserMenu = () => {
 	const authCtx = useContext(AuthContext);
+	const { toggleTheme } = useContext(ThemeContext);
+	const theme = useTheme();
 	const navigate = useNavigate();
 
 	const [anchorEl, setAnchorEl] = React.useState(null);
@@ -118,22 +123,32 @@ const UserMenu = () => {
 				</ListItemIcon>
 				Home
 			</MenuItem>
+			{authCtx.isLoggedIn && (
+				<MenuItem onClick={handleLibraryPage}>
+					<ListItemIcon>
+						<LibraryBooksIcon fontSize="small" />
+					</ListItemIcon>
+					Library
+				</MenuItem>
+			)}
+			<Divider />
+			<MenuItem onClick={toggleTheme}>
+				<ListItemIcon>
+					<Switch
+						size="small"
+						sx={{ marginLeft: -1 }}
+						checked={theme.palette.mode === "dark" ? true : false}
+					/>
+				</ListItemIcon>
+				{theme.palette.mode === "dark" ? "Dark" : "Light"} Theme
+			</MenuItem>
 			{authCtx.isLoggedIn ? (
-				<Box>
-					<MenuItem onClick={handleLibraryPage}>
-						<ListItemIcon>
-							<LibraryBooksIcon fontSize="small" />
-						</ListItemIcon>
-						Library
-					</MenuItem>
-					<Divider />
-					<MenuItem onClick={handleLogout}>
-						<ListItemIcon>
-							<Logout fontSize="small" />
-						</ListItemIcon>
-						Logout
-					</MenuItem>
-				</Box>
+				<MenuItem onClick={handleLogout}>
+					<ListItemIcon>
+						<Logout fontSize="small" />
+					</ListItemIcon>
+					Logout
+				</MenuItem>
 			) : (
 				<MenuItem onClick={handleSignIn}>
 					<ListItemIcon>
