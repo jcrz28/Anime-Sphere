@@ -3,28 +3,30 @@ import {
 	CURRENT_SEASON_API_URL,
 	DEFAULT_SORT_QUERY,
 } from "../utils/helper";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 
 import AnimeCard from "./anime-card";
+import { AnimeQueryContext } from "../context/anime-query-context";
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 import CustomPagination from "./custom-pagination";
 import useHttpClient from "../hook/http-hook";
 
-const JikanAnimeResult = (props) => {
+const JikanAnimeResult = () => {
+	const { isLoading, request } = useHttpClient();
+	const { enteredAnime } = useContext(AnimeQueryContext);
+
 	const [page, setPage] = useState(1);
 	const [totalPages, setTotalPages] = useState(1);
 	const [loadedAnimes, setLoadedAnimes] = useState([]);
 
-	const { isLoading, request } = useHttpClient();
-
 	const getUrl = () => {
-		return props.enteredAnime
-			? `${BASE_API_URL}/anime?q=${props.enteredAnime}&${DEFAULT_SORT_QUERY}&page=${page}`
-			: `${CURRENT_SEASON_API_URL}?page=${page}`;
+		return enteredAnime
+			? `${BASE_API_URL}/anime?q=${enteredAnime}&${DEFAULT_SORT_QUERY}&page=${page}`
+			: `${CURRENT_SEASON_API_URL}?page=${page}&sfw`;
 	};
 
-	const fetchJikanAnime = useCallback(async () => {
+	const jikanAnimeHandler = useCallback(async () => {
 		window.scrollTo(0, 0);
 		const url = getUrl();
 
@@ -36,15 +38,15 @@ const JikanAnimeResult = (props) => {
 			alert(error.message);
 		}
 		// eslint-disable-next-line
-	}, [page, request, props.trigger]);
+	}, [page, request, enteredAnime]);
 
 	useEffect(() => {
-		fetchJikanAnime();
-	}, [fetchJikanAnime]);
+		jikanAnimeHandler();
+	}, [jikanAnimeHandler]);
 
 	useEffect(() => {
 		setPage(1);
-	}, [props.trigger]);
+	}, [enteredAnime]);
 
 	return (
 		<Box

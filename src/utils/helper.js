@@ -36,4 +36,4 @@ export const ANIME_SCORES = [
 
 export const BASE_API_URL = "https://api.jikan.moe/v4";
 export const CURRENT_SEASON_API_URL = "https://api.jikan.moe/v4/seasons/now";
-export const DEFAULT_SORT_QUERY = "order_by=score&sort=desc";
+export const DEFAULT_SORT_QUERY = "order_by=score&sort=desc&sfw";

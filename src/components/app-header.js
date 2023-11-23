@@ -54,10 +54,7 @@ const AppHeader = (props) => {
 				>
 					Anime Sphere
 				</Typography>
-				<SearchBar
-					onSubmit={props.submitHandler}
-					setEnteredAnime={props.setEnteredAnime}
-				/>
+				<SearchBar />
 				<Box sx={{ flexGrow: 1 }} />
 				<Box sx={{ display: { xs: "none", md: "flex" } }}>
 					<ThemeToggleSwitch />

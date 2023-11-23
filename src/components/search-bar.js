@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { alpha, styled } from "@mui/material/styles";
 
+import { AnimeQueryContext } from "../context/anime-query-context";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 
@@ -44,13 +45,13 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 	},
 }));
 
-const SearchBar = (props) => {
+const SearchBar = () => {
 	const [inputAnime, setInputAnime] = useState("");
+	const { setEnteredAnime } = useContext(AnimeQueryContext);
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
-		props.setEnteredAnime(inputAnime);
-		props.onSubmit();
+		setEnteredAnime(inputAnime);
 		setInputAnime("");
 	};
 

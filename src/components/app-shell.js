@@ -1,12 +1,12 @@
 import { DRAWER_HEADER, DRAWER_WIDTH } from "../utils/helper";
-import React, { useState } from "react";
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 
 import AppHeader from "./app-header";
 import Authentication from "./authentication";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import JikanAnimeResult from "./jikan-anime-result";
+import React from "react";
 import SideDrawer from "./side-drawer";
 import { ThemeContext } from "../context/theme-context";
 import UserAnimeResult from "./user-anime-result";
@@ -33,31 +33,16 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
 
 const AppShell = () => {
 	const { toggleTheme } = React.useContext(ThemeContext);
-	const location = useLocation();
 
 	const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
-	const [enteredAnime, setEnteredAnime] = useState("");
-	const [triggerJikanAPI, setTriggerJikanAPI] = useState(0);
-	const [triggerAPI, setTriggerAPI] = useState(0);
-
-	const submitHandler = () => {
-		window.scrollTo(0, 0);
-
-		location.pathname === "/"
-			? setTriggerJikanAPI(triggerJikanAPI + 1)
-			: setTriggerAPI(triggerAPI + 1);
-	};
 
 	return (
 		<ThemeContext.Provider value={{ toggleTheme }}>
 			<Box sx={{ display: "flex" }}>
 				<CssBaseline />
 				<AppHeader
-					setEnteredAnime={setEnteredAnime}
-					enteredAnime={enteredAnime}
 					setIsDrawerOpen={setIsDrawerOpen}
 					isDrawerOpen={isDrawerOpen}
-					submitHandler={submitHandler}
 				/>
 				<SideDrawer
 					setIsDrawerOpen={setIsDrawerOpen}
@@ -67,23 +52,10 @@ const AppShell = () => {
 					<DRAWER_HEADER />
 					<Routes>
 						<Route path="/auth" element={<Authentication />} />
-						<Route
-							path="/"
-							element={
-								<JikanAnimeResult
-									enteredAnime={enteredAnime}
-									trigger={triggerJikanAPI}
-								/>
-							}
-						/>
+						<Route path="/" element={<JikanAnimeResult />} />
 						<Route
 							path="/library/:userId"
-							element={
-								<UserAnimeResult
-									enteredAnime={enteredAnime}
-									trigger={triggerAPI}
-								/>
-							}
+							element={<UserAnimeResult />}
 						/>
 					</Routes>
 				</Main>

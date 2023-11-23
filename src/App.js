@@ -1,3 +1,4 @@
+import { AnimeQueryProvider } from "./context/anime-query-context.js";
 import AppShell from "./components/app-shell.js";
 import { AuthContextProvider } from "./context/auth-context";
 import { BrowserRouter } from "react-router-dom";
@@ -8,7 +9,9 @@ const App = () => {
 		<ThemeContextProvider>
 			<AuthContextProvider>
 				<BrowserRouter>
-					<AppShell />
+					<AnimeQueryProvider>
+						<AppShell />
+					</AnimeQueryProvider>
 				</BrowserRouter>
 			</AuthContextProvider>
 		</ThemeContextProvider>

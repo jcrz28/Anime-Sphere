@@ -1,18 +1,20 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 
 import AnimeCard from "./anime-card";
+import { AnimeQueryContext } from "../context/anime-query-context";
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 import CustomPagination from "./custom-pagination";
 import useHttpClient from "../hook/http-hook";
 import { useParams } from "react-router-dom";
 
-const UserAnimeResult = (props) => {
+const UserAnimeResult = () => {
 	const [page, setPage] = useState(1);
 	const [loadedAnimes, setLoadedAnimes] = useState([]);
 
 	const { userId } = useParams();
 	const { isLoading, request } = useHttpClient();
+	const { enteredAnime } = useContext(AnimeQueryContext);
 
 	const ITEMS_PER_PAGE = 25;
 
@@ -22,54 +24,26 @@ const UserAnimeResult = (props) => {
 		);
 	};
 
-	const fetchUserAnime = useCallback(async () => {
-		if (userId) {
-			try {
-				const response = await request(
-					`https://anime-tracker-backend.vercel.app/dashboard/${userId}`
-				);
-				setLoadedAnimes(response.animes);
-				setPage(1);
-			} catch (error) {
-				alert(error);
-			}
-		}
-	}, [userId, request]);
-
-	const userAnimeFilterHandler = useCallback(async () => {
+	const userAnimeHandler = useCallback(async () => {
 		try {
 			const response = await request(
-				`https://anime-tracker-backend.vercel.app/dashboard/${userId}/${props.enteredAnime}`
+				`https://anime-tracker-backend.vercel.app/dashboard/${userId}/${enteredAnime}`
 			);
-
-			if (response.animes.length === 0) {
-				throw new Error("Anime does not exist");
-			}
 
 			let filteredAnime = response.animes;
 
 			if (filteredAnime.length > 0) {
 				setLoadedAnimes(filteredAnime);
 				setPage(1);
-			} else {
-				throw new Error("No found animes");
 			}
 		} catch (error) {
 			alert(error.message);
 		}
-
-		// eslint-disable-next-line
-	}, [userId, request, props.trigger]);
+	}, [userId, request, enteredAnime]);
 
 	useEffect(() => {
-		userAnimeFilterHandler();
-	}, [userAnimeFilterHandler]);
-
-	useEffect(() => {
-		if (props.trigger === 0) {
-			fetchUserAnime();
-		}
-	}, [fetchUserAnime, userId, props.trigger]);
+		userAnimeHandler();
+	}, [userAnimeHandler]);
 
 	return (
 		<Box
