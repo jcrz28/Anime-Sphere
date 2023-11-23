@@ -2,7 +2,7 @@ import React, { createContext, useState } from "react";
 
 export const AnimeQueryContext = createContext();
 
-export const AnimeQueryProvider = ({ children }) => {
+export const AnimeQueryProvider = (props) => {
 	const [enteredAnime, setEnteredAnime] = useState("");
 
 	const resetQuery = () => {
@@ -17,7 +17,7 @@ export const AnimeQueryProvider = ({ children }) => {
 
 	return (
 		<AnimeQueryContext.Provider value={contextValue}>
-			{children}
+			{props.children}
 		</AnimeQueryContext.Provider>
 	);
 };
