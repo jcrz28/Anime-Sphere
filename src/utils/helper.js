@@ -1,6 +1,6 @@
 import { styled } from "@mui/material/styles";
 
-export const DRAWER_WIDTH = 240;
+export const DRAWER_WIDTH = 270;
 
 export const DRAWER_HEADER = styled("div")(({ theme }) => ({
 	display: "flex",
@@ -11,27 +11,30 @@ export const DRAWER_HEADER = styled("div")(({ theme }) => ({
 	...theme.mixins.toolbar,
 }));
 
+export const findNameById = (id, items) => {
+	const foundItem = items.find((item) => item.mal_id === id);
+	return foundItem ? foundItem.name : "";
+};
+
 export const ANIME_RATINGS = [
-	{
-		g: "G - All Ages",
-		pg: "PG - Children",
-		pg13: "PG-13 - Teens 13 or older",
-		r17: "R - 17+ (violence & profanity)",
-		r: "R+ - Mild Nudity",
-	},
+	{ g: "G - All Ages" },
+	{ pg: "PG - Children" },
+	{ pg13: "PG-13 - Teens 13 or Older" },
+	{ r17: "R - 17+ (Violence & Profanity)" },
+	{ r: "R+ - Mild Nudity" },
 ];
 
 export const ANIME_SCORES = [
-	"0 - Avoid",
-	"1 - Poor",
-	"2 - Below Average",
-	"3 - Average",
-	"4 - Good",
-	"5 - Above Average",
-	"6 - Very Good",
-	"7 - Excellent",
-	"8 - Outstanding",
-	"9- Masterpiece",
+	{ label: "0 - Avoid" },
+	{ label: "1 - Poor" },
+	{ label: "2 - Below Average" },
+	{ label: "3 - Average" },
+	{ label: "4 - Good" },
+	{ label: "5 - Above Average" },
+	{ label: "6 - Very Good" },
+	{ label: "7 - Excellent" },
+	{ label: "8 - Outstanding" },
+	{ label: "9 - Masterpiece" },
 ];
 
 export const BASE_API_URL = "https://api.jikan.moe/v4";

@@ -14,17 +14,65 @@ import useHttpClient from "../hook/http-hook";
 
 const JikanAnimeResult = () => {
 	const { isLoading, request } = useHttpClient();
-	const { enteredAnime, resetQuery } = useContext(AnimeQueryContext);
+	const {
+		enteredAnime,
+		selectedScore,
+		selectedRating,
+		selectedGenre,
+		selectedTheme,
+		resetQuery,
+	} = useContext(AnimeQueryContext);
 
 	const [page, setPage] = useState(1);
 	const [totalPages, setTotalPages] = useState(1);
 	const [loadedAnimes, setLoadedAnimes] = useState([]);
 
+	const getFilterQuery = useCallback(() => {
+		const scoreQuery =
+			selectedScore &&
+			`min_score=${parseInt(selectedScore)}&max_score=${
+				parseInt(selectedScore) + 1
+			}`;
+
+		const ratingQuery =
+			selectedRating && `rating=${Object.keys(selectedRating)[0]}`;
+
+		// Combine genre and theme queries using a single filter
+		let genreThemeFilter = selectedGenre && `genres=${selectedGenre}`;
+		if (selectedTheme) {
+			genreThemeFilter = genreThemeFilter
+				? `${genreThemeFilter},${selectedTheme}`
+				: `genres=${selectedTheme}`;
+		}
+
+		return [scoreQuery, ratingQuery, genreThemeFilter]
+			.filter(Boolean)
+			.join("&");
+	}, [selectedScore, selectedRating, selectedGenre, selectedTheme]);
+
 	const getUrl = useCallback(() => {
-		return enteredAnime
-			? `${BASE_API_URL}/anime?q=${enteredAnime}&${DEFAULT_SORT_QUERY}&page=${page}`
-			: `${CURRENT_SEASON_API_URL}?page=${page}&sfw`;
-	}, [enteredAnime, page]);
+		const hasQuery =
+			enteredAnime ||
+			selectedScore ||
+			selectedRating ||
+			selectedGenre ||
+			selectedTheme;
+
+		if (hasQuery) {
+			const filterQuery = getFilterQuery();
+			return `${BASE_API_URL}/anime?q=${enteredAnime}&${filterQuery}&${DEFAULT_SORT_QUERY}&page=${page}`;
+		} else {
+			return `${CURRENT_SEASON_API_URL}?page=${page}&sfw`;
+		}
+	}, [
+		enteredAnime,
+		selectedScore,
+		selectedRating,
+		selectedGenre,
+		selectedTheme,
+		getFilterQuery,
+		page,
+	]);
 
 	const jikanAnimeHandler = useCallback(async () => {
 		window.scrollTo(0, 0);
