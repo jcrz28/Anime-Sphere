@@ -136,7 +136,7 @@ const AnimeCard = (props) => {
 						<Divider />
 						<Box
 							sx={{
-								my: 2,
+								mt: 2,
 								display: "flex",
 								justifyContent: "space-between",
 							}}
