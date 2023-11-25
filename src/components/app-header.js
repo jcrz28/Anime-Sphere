@@ -1,15 +1,17 @@
+import React, { useEffect } from "react";
+
 import Box from "@mui/material/Box";
 import { DRAWER_WIDTH } from "../utils/helper";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import MuiAppBar from "@mui/material/AppBar";
-import React from "react";
 import SearchBar from "./search-bar";
 import ThemeToggleSwitch from "./theme-toggle-switch";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import UserMenu from "./user-menu";
 import { styled } from "@mui/material/styles";
+import { useLocation } from "react-router-dom";
 
 const AppBar = styled(MuiAppBar, {
 	shouldForwardProp: (prop) => prop !== "open",
@@ -29,23 +31,34 @@ const AppBar = styled(MuiAppBar, {
 }));
 
 const AppHeader = (props) => {
+	const location = useLocation();
+	const isAuth = location.pathname === "/auth";
+
+	useEffect(() => {
+		if (isAuth && props.isDrawerOpen) {
+			props.setIsDrawerOpen(false);
+		}
+	}, [isAuth, props]);
+
 	return (
 		<AppBar position="fixed" open={props.isDrawerOpen}>
 			<Toolbar>
-				<IconButton
-					color="inherit"
-					aria-label="open drawer"
-					onClick={() => props.setIsDrawerOpen(true)}
-					edge="start"
-					sx={{
-						mr: 2,
-						...(props.isDrawerOpen && {
-							display: "none",
-						}),
-					}}
-				>
-					<MenuIcon />
-				</IconButton>
+				{!isAuth && (
+					<IconButton
+						color="inherit"
+						aria-label="open drawer"
+						onClick={() => props.setIsDrawerOpen(true)}
+						edge="start"
+						sx={{
+							mr: 2,
+							...(props.isDrawerOpen && {
+								display: "none",
+							}),
+						}}
+					>
+						<MenuIcon />
+					</IconButton>
+				)}
 				<Typography
 					variant="h6"
 					noWrap
@@ -54,7 +67,7 @@ const AppHeader = (props) => {
 				>
 					Anime Sphere
 				</Typography>
-				<SearchBar />
+				{!isAuth && <SearchBar />}
 				<Box sx={{ flexGrow: 1 }} />
 				<Box sx={{ display: { xs: "none", md: "flex" } }}>
 					<ThemeToggleSwitch />

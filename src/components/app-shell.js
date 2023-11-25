@@ -51,12 +51,12 @@ const AppShell = () => {
 				<Main open={isDrawerOpen}>
 					<DRAWER_HEADER />
 					<Routes>
-						<Route path="/auth" element={<Authentication />} />
 						<Route path="/" element={<JikanAnimeResult />} />
 						<Route
 							path="/library/:userId"
 							element={<UserAnimeResult />}
 						/>
+						<Route path="/auth" element={<Authentication />} />
 					</Routes>
 				</Main>
 			</Box>
