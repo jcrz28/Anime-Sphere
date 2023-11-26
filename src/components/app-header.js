@@ -42,7 +42,7 @@ const AppHeader = (props) => {
 
 	return (
 		<AppBar position="fixed" open={props.isDrawerOpen}>
-			<Toolbar>
+			<Toolbar sx={{ backgroundColor: "blue" }}>
 				{!isAuth && (
 					<IconButton
 						color="inherit"
