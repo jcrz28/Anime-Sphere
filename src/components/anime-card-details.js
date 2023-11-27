@@ -4,11 +4,10 @@ import Typography from "@mui/material/Typography";
 
 const AnimeCardDetails = (props) => {
 	return (
-		<Box sx={{ height: 225 }}>
+		<Box>
 			<Typography
 				variant="body1"
 				sx={{
-					height: 80,
 					display: "flex",
 					justifyContent: "center",
 					alignItems: "center",

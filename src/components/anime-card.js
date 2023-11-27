@@ -9,7 +9,6 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import CustomDialog from "./custom-dialog.js";
-import Divider from "@mui/material/Divider";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 
@@ -100,10 +99,10 @@ const AnimeCard = (props) => {
 	};
 
 	return (
-		<Box sx={{ my: 2, ...(isSmallScreen ? { mx: 0 } : { mx: 4 }) }}>
+		<Box sx={{ my: 3, ...(isSmallScreen ? { mx: 0 } : { mx: 3 }) }}>
 			<Card
 				sx={{
-					width: 300,
+					width: isSmallScreen ? 300 : 450,
 					height: 1,
 					animation: bump ? "bump 400ms ease-out" : "none",
 					"@keyframes bump": {
@@ -125,20 +124,36 @@ const AnimeCard = (props) => {
 					},
 				}}
 			>
-				<CardContent>
+				<CardContent
+					sx={{
+						display: "flex",
+						flexDirection: isSmallScreen ? "column" : "row",
+						height: 1,
+					}}
+				>
 					<CardMedia
 						component="img"
 						image={props.anime.images.jpg.image_url}
-						height="400"
+						sx={{
+							pr: 2,
+							objectFit: "contain",
+						}}
 					/>
-					<Box>
+					<Box
+						sx={{
+							width: 1,
+							display: "flex",
+							justifyContent: "space-between",
+							flexDirection: "column",
+						}}
+					>
 						<AnimeCardDetails anime={props.anime} />
-						<Divider />
 						<Box
 							sx={{
-								mt: 2,
+								my: 1,
 								display: "flex",
 								justifyContent: "space-between",
+								flexDirection: "row",
 							}}
 						>
 							{!props.danger && (
