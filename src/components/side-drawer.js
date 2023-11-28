@@ -109,7 +109,7 @@ const SideDrawer = (props) => {
 			</DRAWER_HEADER>
 			<Divider />
 			<Autocomplete
-				value={selectedScore}
+				value={ANIME_SCORES[selectedScore] || null}
 				options={ANIME_SCORES}
 				sx={{ mx: 2, my: 1 }}
 				onChange={(event, newValue) => {
@@ -125,9 +125,7 @@ const SideDrawer = (props) => {
 					<TextField
 						{...params}
 						label={
-							selectedScore !== null &&
-							selectedScore >= 0 &&
-							selectedScore < ANIME_SCORES.length
+							selectedScore
 								? ANIME_SCORES[selectedScore].label
 								: "Select Score"
 						}
