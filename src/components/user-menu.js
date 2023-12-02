@@ -4,16 +4,19 @@ import AuthContext from "../context/auth-context";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
+import DashboardIcon from "@mui/icons-material/Dashboard";
 import Divider from "@mui/material/Divider";
 import Home from "@mui/icons-material/Home";
 import IconButton from "@mui/material/IconButton";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
+import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
 import Login from "@mui/icons-material/Login";
 import Logout from "@mui/icons-material/Logout";
 import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
 import MoreIcon from "@mui/icons-material/MoreVert";
+import SettingsIcon from "@mui/icons-material/Settings";
 import Switch from "@mui/material/Switch";
 import { ThemeContext } from "../context/theme-context";
 import Tooltip from "@mui/material/Tooltip";
@@ -76,7 +79,7 @@ const UserMenu = () => {
 		<Menu
 			anchorEl={anchorEl}
 			anchorOrigin={{
-				vertical: "top",
+				vertical: "bottom",
 				horizontal: "right",
 			}}
 			id={menuId}
@@ -89,13 +92,28 @@ const UserMenu = () => {
 			onClose={handleMenuClose}
 		>
 			{authCtx.isLoggedIn ? (
-				<MenuItem onClick={handleLogout}>
-					<Logout /> Log Out
-				</MenuItem>
+				<div>
+					<ListItemButton>
+						<ListItemIcon>
+							<SettingsIcon />
+						</ListItemIcon>
+						<ListItemText primary="Settings" />
+					</ListItemButton>
+					<Divider />
+					<ListItemButton onClick={handleLogout}>
+						<ListItemIcon>
+							<Logout />
+						</ListItemIcon>
+						<ListItemText primary="Log Out" />
+					</ListItemButton>
+				</div>
 			) : (
-				<MenuItem onClick={handleSignIn}>
-					<Login /> Sign In
-				</MenuItem>
+				<ListItemButton onClick={handleSignIn}>
+					<ListItemIcon>
+						<Login />
+					</ListItemIcon>
+					<ListItemText primary="Sign In" />
+				</ListItemButton>
 			)}
 		</Menu>
 	);
@@ -105,7 +123,7 @@ const UserMenu = () => {
 		<Menu
 			anchorEl={mobileMoreAnchorEl}
 			anchorOrigin={{
-				vertical: "top",
+				vertical: "bottom",
 				horizontal: "right",
 			}}
 			id={mobileMenuId}
@@ -117,22 +135,37 @@ const UserMenu = () => {
 			open={isMobileMenuOpen}
 			onClose={handleMobileMenuClose}
 		>
-			<MenuItem onClick={handleHomePage}>
+			<ListItemButton onClick={handleHomePage}>
 				<ListItemIcon>
 					<Home fontSize="small" />
 				</ListItemIcon>
 				Home
-			</MenuItem>
+			</ListItemButton>
 			{authCtx.isLoggedIn && (
-				<MenuItem onClick={handleLibraryPage}>
-					<ListItemIcon>
-						<LibraryBooksIcon fontSize="small" />
-					</ListItemIcon>
-					Library
-				</MenuItem>
+				<div>
+					<ListItemButton onClick={handleLibraryPage}>
+						<ListItemIcon>
+							<LibraryBooksIcon fontSize="small" />
+						</ListItemIcon>
+						<ListItemText primary="Library" />
+					</ListItemButton>
+					<ListItemButton>
+						<ListItemIcon>
+							<DashboardIcon fontSize="small" />
+						</ListItemIcon>
+						<ListItemText primary="Dashboard" />
+					</ListItemButton>
+				</div>
 			)}
 			<Divider />
-			<MenuItem onClick={toggleTheme}>
+			<ListItemButton>
+				<ListItemIcon>
+					<SettingsIcon fontSize="small" />
+				</ListItemIcon>
+				<ListItemText primary="Settings" />
+			</ListItemButton>
+			<Divider />
+			<ListItemButton onClick={toggleTheme}>
 				<ListItemIcon>
 					<Switch
 						size="small"
@@ -140,22 +173,26 @@ const UserMenu = () => {
 						checked={theme.palette.mode === "dark" ? true : false}
 					/>
 				</ListItemIcon>
-				{theme.palette.mode === "dark" ? "Dark" : "Light"} Theme
-			</MenuItem>
+				<ListItemText
+					primary={`${
+						theme.palette.mode === "dark" ? "Dark" : "Light"
+					} Theme`}
+				/>
+			</ListItemButton>
 			{authCtx.isLoggedIn ? (
-				<MenuItem onClick={handleLogout}>
+				<ListItemButton onClick={handleLogout}>
 					<ListItemIcon>
 						<Logout fontSize="small" />
 					</ListItemIcon>
-					Logout
-				</MenuItem>
+					<ListItemText primary="Log Out" />
+				</ListItemButton>
 			) : (
-				<MenuItem onClick={handleSignIn}>
+				<ListItemButton onClick={handleSignIn}>
 					<ListItemIcon>
 						<Login fontSize="small" />
 					</ListItemIcon>
-					Sign In
-				</MenuItem>
+					<ListItemText primary="Sign In" />
+				</ListItemButton>
 			)}
 		</Menu>
 	);
@@ -164,18 +201,27 @@ const UserMenu = () => {
 		<Box sx={{ flexGrow: 1 }}>
 			<Box sx={{ flexGrow: 1 }} />
 			<Box sx={{ display: { xs: "none", md: "flex" } }}>
-				{authCtx.isLoggedIn && (
-					<IconButton size="large" onClick={handleLibraryPage}>
-						<Chip
-							color="info"
-							icon={<LibraryBooksIcon />}
-							label="Library"
-						/>
-					</IconButton>
-				)}
 				<IconButton size="large" onClick={handleHomePage}>
 					<Chip color="info" icon={<Home />} label="Home" />
 				</IconButton>
+				{authCtx.isLoggedIn && (
+					<React.Fragment>
+						<IconButton size="large" onClick={handleLibraryPage}>
+							<Chip
+								color="info"
+								icon={<LibraryBooksIcon />}
+								label="Library"
+							/>
+						</IconButton>
+						<IconButton size="large">
+							<Chip
+								color="info"
+								icon={<DashboardIcon />}
+								label="Dashboard"
+							/>
+						</IconButton>
+					</React.Fragment>
+				)}
 				{!authCtx.isLoggedIn && (
 					<IconButton size="large" onClick={handleSignIn}>
 						<Chip color="info" icon={<Login />} label="Sign In" />
