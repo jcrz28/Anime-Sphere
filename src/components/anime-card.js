@@ -135,7 +135,7 @@ const AnimeCard = (props) => {
 						component="img"
 						image={props.anime.images.jpg.image_url}
 						sx={{
-							pr: 2,
+							pr: isSmallScreen ? 0 : 2,
 							objectFit: "contain",
 						}}
 					/>
