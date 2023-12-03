@@ -6,7 +6,6 @@ const useHttpClient = () => {
 	// Added default parameter values
 	const request = useCallback(
 		async (url, method = "GET", body = null, headers = {}) => {
-			setIsLoading(true);
 			try {
 				const response = await fetch(url, {
 					method,
@@ -21,7 +20,6 @@ const useHttpClient = () => {
 
 				return data;
 			} catch (error) {
-				setIsLoading(false);
 				throw error;
 			}
 		},

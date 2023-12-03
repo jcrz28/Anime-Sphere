@@ -18,10 +18,11 @@ import { useNavigate } from "react-router-dom";
 const Authentication = () => {
 	const authCtx = useContext(AuthContext);
 
-	const { isLoading, request } = useHttpClient();
+	const { request } = useHttpClient();
 	const navigate = useNavigate();
 
 	const [isLogin, setIsLogIn] = useState(true);
+	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState(null);
 
 	const switchAuthModeHandler = () => {
@@ -38,6 +39,7 @@ const Authentication = () => {
 			password: userData.password,
 			confirm_password: userData.confirm_password || "",
 		};
+		setIsLoading(true);
 
 		try {
 			const endpoint = isLogin ? "auth/login" : "auth/signup";
@@ -56,6 +58,7 @@ const Authentication = () => {
 		} catch (error) {
 			setError(error.message);
 		}
+		setIsLoading(false);
 	};
 
 	return (

@@ -32,18 +32,20 @@ const AppBar = styled(MuiAppBar, {
 
 const AppHeader = (props) => {
 	const location = useLocation();
-	const isAuth = location.pathname === "/auth";
+	const isInvalidRouteForDrawer =
+		location.pathname.startsWith("/auth") ||
+		location.pathname.startsWith("/dashboard");
 
 	useEffect(() => {
-		if (isAuth && props.isDrawerOpen) {
+		if (isInvalidRouteForDrawer && props.isDrawerOpen) {
 			props.setIsDrawerOpen(false);
 		}
-	}, [isAuth, props]);
+	}, [isInvalidRouteForDrawer, props]);
 
 	return (
 		<AppBar position="fixed" open={props.isDrawerOpen}>
 			<Toolbar sx={{ backgroundColor: "blue" }}>
-				{!isAuth && (
+				{!isInvalidRouteForDrawer && (
 					<IconButton
 						color="inherit"
 						aria-label="open drawer"
@@ -67,7 +69,7 @@ const AppHeader = (props) => {
 				>
 					Anime Sphere
 				</Typography>
-				{!isAuth && <SearchBar />}
+				{!isInvalidRouteForDrawer && <SearchBar />}
 				<Box sx={{ flexGrow: 1 }} />
 				<Box sx={{ display: { xs: "none", md: "flex" } }}>
 					<ThemeToggleSwitch />

@@ -13,7 +13,7 @@ import CustomPagination from "./custom-pagination";
 import useHttpClient from "../hook/http-hook";
 
 const JikanAnimeResult = () => {
-	const { isLoading, request } = useHttpClient();
+	const { request } = useHttpClient();
 	const {
 		enteredAnime,
 		selectedScore,
@@ -25,7 +25,7 @@ const JikanAnimeResult = () => {
 
 	const [page, setPage] = useState(1);
 	const [totalPages, setTotalPages] = useState(1);
-	const [loadedAnimes, setLoadedAnimes] = useState([]);
+	const [data, setData] = useState([]);
 
 	const getFilterQuery = useCallback(() => {
 		const scoreQuery =
@@ -80,7 +80,7 @@ const JikanAnimeResult = () => {
 
 		try {
 			const response = await request(url);
-			setLoadedAnimes(response.data);
+			setData(response.data);
 			setTotalPages(response.pagination.last_visible_page);
 		} catch (error) {
 			alert(error.message);
@@ -109,7 +109,7 @@ const JikanAnimeResult = () => {
 				width: "100%",
 			}}
 		>
-			{isLoading && (
+			{!data && (
 				<Box
 					sx={{
 						display: "flex",
@@ -127,7 +127,7 @@ const JikanAnimeResult = () => {
 					width: "100%",
 				}}
 			>
-				{loadedAnimes.map((anime) => (
+				{data.map((anime) => (
 					<AnimeCard
 						anime={anime}
 						danger={false}

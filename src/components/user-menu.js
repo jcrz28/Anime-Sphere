@@ -64,6 +64,11 @@ const UserMenu = () => {
 		handleMenuClose();
 	};
 
+	const handleDashboardPage = () => {
+		navigate(`/dashboard/${authCtx.userId}`);
+		handleMenuClose();
+	};
+
 	const handleLibraryPage = () => {
 		navigate(`/library/${authCtx.userId}`);
 		handleMenuClose();
@@ -149,7 +154,7 @@ const UserMenu = () => {
 						</ListItemIcon>
 						<ListItemText primary="Library" />
 					</ListItemButton>
-					<ListItemButton>
+					<ListItemButton onClick={handleDashboardPage}>
 						<ListItemIcon>
 							<DashboardIcon fontSize="small" />
 						</ListItemIcon>
@@ -213,7 +218,7 @@ const UserMenu = () => {
 								label="Library"
 							/>
 						</IconButton>
-						<IconButton size="large">
+						<IconButton size="large" onClick={handleDashboardPage}>
 							<Chip
 								color="info"
 								icon={<DashboardIcon />}

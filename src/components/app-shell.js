@@ -10,6 +10,7 @@ import React from "react";
 import SideDrawer from "./side-drawer";
 import { ThemeContext } from "../context/theme-context";
 import UserAnimeResult from "./user-anime-result";
+import UserDashboard from "./user-dashboard";
 import { styled } from "@mui/material/styles";
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
@@ -55,6 +56,10 @@ const AppShell = () => {
 						<Route
 							path="/library/:userId"
 							element={<UserAnimeResult />}
+						/>
+						<Route
+							path="/dashboard/:userId"
+							element={<UserDashboard />}
 						/>
 						<Route path="/auth" element={<Authentication />} />
 					</Routes>

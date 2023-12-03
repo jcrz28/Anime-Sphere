@@ -1,5 +1,5 @@
 import { ANIME_GENRES, ANIME_THEMES } from "./side-drawer";
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import AnimeCard from "./anime-card";
 import { AnimeQueryContext } from "../context/anime-query-context";
@@ -12,7 +12,7 @@ import { useParams } from "react-router-dom";
 
 const UserAnimeResult = () => {
 	const { userId } = useParams();
-	const { isLoading, request } = useHttpClient();
+	const { request } = useHttpClient();
 	const {
 		enteredAnime,
 		selectedScore,
@@ -23,73 +23,75 @@ const UserAnimeResult = () => {
 	} = useContext(AnimeQueryContext);
 
 	const [page, setPage] = useState(1);
-	const [loadedAnimes, setLoadedAnimes] = useState([]);
+	const [data, setData] = useState([]);
 
 	const ITEMS_PER_PAGE = 25;
 
 	const deleteAnimeHandler = (animeId) => {
-		setLoadedAnimes((updatedList) =>
+		setData((updatedList) =>
 			updatedList.filter((anime) => anime.id !== animeId)
 		);
 	};
 
-	const userAnimeHandler = useCallback(async () => {
-		try {
-			const response = await request(
-				`https://anime-sphere-server.vercel.app/library/${userId}/${enteredAnime}`
-			);
-
-			let filteredAnime = response.animes;
-
-			if (selectedScore) {
-				const minScore = Math.min(selectedScore);
-				const maxScore = Math.max(selectedScore) + 1;
-
-				filteredAnime = filteredAnime.filter(
-					(anime) => anime.score >= minScore && anime.score < maxScore
+	useEffect(() => {
+		const getUserAnimeLists = async () => {
+			try {
+				const response = await request(
+					`https://anime-sphere-server.vercel.app/library/${userId}/${enteredAnime}`
 				);
-			}
 
-			if (selectedRating) {
-				filteredAnime = filteredAnime.filter(
-					(anime) => anime.rating === Object.keys(selectedRating)[0]
-				);
-			}
+				let filteredAnime = response.animes;
 
-			if (selectedGenre) {
-				const genreName = findNameById(selectedGenre, ANIME_GENRES);
-				filteredAnime = filteredAnime.filter((anime) =>
-					anime.genres.some((genre) => genre.name === genreName)
-				);
-			}
+				if (selectedScore) {
+					const minScore = Math.min(selectedScore);
+					const maxScore = Math.max(selectedScore) + 1;
 
-			if (selectedTheme) {
-				const themeName = findNameById(selectedTheme, ANIME_THEMES);
-				filteredAnime = filteredAnime.filter((anime) =>
-					anime.themes.some((theme) => theme.name === themeName)
-				);
-			}
+					filteredAnime = filteredAnime.filter(
+						(anime) =>
+							anime.score >= minScore && anime.score < maxScore
+					);
+				}
 
-			if (filteredAnime.length > 0) {
-				setLoadedAnimes(filteredAnime);
-				setPage(1);
+				if (selectedRating) {
+					filteredAnime = filteredAnime.filter(
+						(anime) =>
+							anime.rating === Object.keys(selectedRating)[0]
+					);
+				}
+
+				if (selectedGenre) {
+					const genreName = findNameById(selectedGenre, ANIME_GENRES);
+					filteredAnime = filteredAnime.filter((anime) =>
+						anime.genres.some((genre) => genre.name === genreName)
+					);
+				}
+
+				if (selectedTheme) {
+					const themeName = findNameById(selectedTheme, ANIME_THEMES);
+					filteredAnime = filteredAnime.filter((anime) =>
+						anime.themes.some((theme) => theme.name === themeName)
+					);
+				}
+
+				if (filteredAnime.length > 0) {
+					setData(filteredAnime);
+					setPage(1);
+				}
+			} catch (error) {
+				alert(error.message);
 			}
-		} catch (error) {
-			alert(error.message);
-		}
+		};
+
+		getUserAnimeLists();
 	}, [
 		userId,
-		request,
 		enteredAnime,
 		selectedScore,
 		selectedRating,
 		selectedGenre,
 		selectedTheme,
+		request,
 	]);
-
-	useEffect(() => {
-		userAnimeHandler();
-	}, [userAnimeHandler]);
 
 	useEffect(() => {
 		resetQuery();
@@ -105,7 +107,7 @@ const UserAnimeResult = () => {
 				width: "100%",
 			}}
 		>
-			{isLoading && (
+			{!data && (
 				<Box
 					sx={{
 						display: "flex",
@@ -123,7 +125,7 @@ const UserAnimeResult = () => {
 					width: "100%",
 				}}
 			>
-				{loadedAnimes
+				{data
 					.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE)
 					.map((anime) => (
 						<AnimeCard
@@ -137,7 +139,7 @@ const UserAnimeResult = () => {
 			<CustomPagination
 				setPage={setPage}
 				page={page}
-				totalPages={Math.ceil(loadedAnimes.length / ITEMS_PER_PAGE)}
+				totalPages={Math.ceil(data.length / ITEMS_PER_PAGE)}
 			/>
 		</Box>
 	);
