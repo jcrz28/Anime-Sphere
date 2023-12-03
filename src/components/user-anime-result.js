@@ -36,7 +36,7 @@ const UserAnimeResult = () => {
 	const userAnimeHandler = useCallback(async () => {
 		try {
 			const response = await request(
-				`https://anime-tracker-backend.vercel.app/dashboard/${userId}/${enteredAnime}`
+				`https://anime-sphere-server.vercel.app/library/${userId}/${enteredAnime}`
 			);
 
 			let filteredAnime = response.animes;

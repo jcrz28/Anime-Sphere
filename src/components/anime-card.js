@@ -35,7 +35,7 @@ const AnimeCard = (props) => {
 
 		try {
 			const addAnime = await fetch(
-				`https://anime-tracker-backend.vercel.app/dashboard/${authCtx.userId}`,
+				`https://anime-sphere-server.vercel.app/library/${authCtx.userId}`,
 				{
 					method: "POST",
 					headers: {
