@@ -160,15 +160,15 @@ const UserMenu = () => {
 						</ListItemIcon>
 						<ListItemText primary="Dashboard" />
 					</ListItemButton>
+					<Divider />
+					<ListItemButton>
+						<ListItemIcon>
+							<SettingsIcon fontSize="small" />
+						</ListItemIcon>
+						<ListItemText primary="Settings" />
+					</ListItemButton>
 				</div>
 			)}
-			<Divider />
-			<ListItemButton>
-				<ListItemIcon>
-					<SettingsIcon fontSize="small" />
-				</ListItemIcon>
-				<ListItemText primary="Settings" />
-			</ListItemButton>
 			<Divider />
 			<ListItemButton onClick={toggleTheme}>
 				<ListItemIcon>
