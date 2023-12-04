@@ -107,7 +107,7 @@ const UserAnimeResult = () => {
 				width: "100%",
 			}}
 		>
-			{!data && (
+			{!data.length && (
 				<Box
 					sx={{
 						display: "flex",

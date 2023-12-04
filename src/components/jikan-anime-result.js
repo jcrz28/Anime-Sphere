@@ -109,7 +109,7 @@ const JikanAnimeResult = () => {
 				width: "100%",
 			}}
 		>
-			{!data && (
+			{!data.length && (
 				<Box
 					sx={{
 						display: "flex",

@@ -105,7 +105,7 @@ const UserDashboard = () => {
 			}}
 			container
 		>
-			{!data && <CircularProgress />}
+			{!data.length && <CircularProgress />}
 			<Grid item xs={12}>
 				<Grid container justifyContent="center" spacing={5}>
 					{genresData.length > 0 && (
@@ -174,7 +174,6 @@ const UserDashboard = () => {
 							</Paper>
 						</Grid>
 					)}
-
 					<Grid item xs={12} style={{ width: "100%" }}>
 						<Paper>
 							<Typography variant="h6" sx={{ p: 1 }}>
