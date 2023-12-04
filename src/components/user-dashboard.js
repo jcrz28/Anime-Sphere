@@ -2,12 +2,12 @@ import * as React from "react";
 
 import { useEffect, useMemo, useState } from "react";
 
+import { BarChart } from "@mui/x-charts/BarChart";
 import CircularProgress from "@mui/material/CircularProgress";
 import { DataGrid } from "@mui/x-data-grid";
 import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
-import { PieChart } from "@mui/x-charts/PieChart";
 import Typography from "@mui/material/Typography";
 import useHttpClient from "../hook/http-hook";
 import { useParams } from "react-router-dom";
@@ -16,8 +16,6 @@ const UserDashboard = () => {
 	const { userId } = useParams();
 	const { request } = useHttpClient();
 	const [data, setData] = useState([]);
-
-	const pieParams = { height: 350 };
 
 	const colDefs = [
 		{ field: "id", headerName: "ID", width: 100 },
@@ -59,13 +57,10 @@ const UserDashboard = () => {
 			});
 		});
 
-		const seriesData = Object.keys(genresCount).map((genre, index) => ({
-			id: index,
-			value: genresCount[genre],
-			label: genre,
+		return Object.keys(genresCount).map((genre) => ({
+			genre,
+			count: genresCount[genre],
 		}));
-
-		return seriesData;
 	}, [data]);
 
 	const themesData = useMemo(() => {
@@ -81,13 +76,10 @@ const UserDashboard = () => {
 			});
 		});
 
-		const seriesData = Object.keys(themesCount).map((theme, index) => ({
-			id: index,
-			value: themesCount[theme],
-			label: theme,
+		return Object.keys(themesCount).map((theme) => ({
+			theme,
+			count: themesCount[theme],
 		}));
-
-		return seriesData;
 	}, [data]);
 
 	useEffect(() => {
@@ -116,84 +108,73 @@ const UserDashboard = () => {
 			{!data && <CircularProgress />}
 			<Grid item xs={12}>
 				<Grid container justifyContent="center" spacing={5}>
-					<Grid item xs={12} md={6}>
-						<Paper
-							sx={{
-								height: "fit-content",
-								overflowWrap: "break-word",
-							}}
-						>
-							<Typography variant="h6" sx={{ p: 1 }}>
-								Anime Genres
-							</Typography>
-							<Divider />
-							<PieChart
-								series={[
-									{
-										data: genresData,
-										innerRadius: 30,
-										paddingAngle: 5,
-										cornerRadius: 5,
-									},
-								]}
-								margin={{
-									bottom: 100,
-									left: 100,
-									right: 100,
+					{genresData.length > 0 && (
+						<Grid item xs={12} style={{ width: "100%" }}>
+							<Paper
+								sx={{
+									height: "fit-content",
+									overflowWrap: "break-word",
 								}}
-								slotProps={{
-									legend: {
-										direction: "row",
-										position: {
-											vertical: "bottom",
-											horizontal: "middle",
+							>
+								<Typography variant="h6" sx={{ p: 1 }}>
+									Anime Genres
+								</Typography>
+								<Divider />
+								<BarChart
+									xAxis={[
+										{
+											data: genresData.map(
+												(genreData) => genreData.genre
+											),
+											scaleType: "band",
 										},
-										padding: 0,
-									},
-								}}
-								{...pieParams}
-							/>
-						</Paper>
-					</Grid>
-					<Grid item xs={12} md={6}>
-						<Paper
-							sx={{
-								height: "fit-content",
-								overflowWrap: "break-word",
-							}}
-						>
-							<Typography variant="h6" sx={{ p: 1 }}>
-								Anime Themes
-							</Typography>
-							<Divider />
-							<PieChart
-								series={[
-									{
-										data: themesData,
-										innerRadius: 30,
-										paddingAngle: 5,
-										cornerRadius: 5,
-									},
-								]}
-								margin={{
-									bottom: 100,
-									left: 100,
-									right: 100,
-								}}
-								slotProps={{
-									legend: {
-										direction: "row",
-										position: {
-											vertical: "bottom",
-											horizontal: "middle",
+									]}
+									series={[
+										{
+											data: genresData.map(
+												(genreData) => genreData.count
+											),
 										},
-										padding: 0,
-									},
+									]}
+									height={350}
+								/>
+							</Paper>
+						</Grid>
+					)}
+					{themesData.length > 0 && (
+						<Grid item xs={12} style={{ width: "100%" }}>
+							<Paper
+								sx={{
+									height: "fit-content",
+									overflowWrap: "break-word",
 								}}
-								{...pieParams}
-							/>
-						</Paper>
-					</Grid>
+							>
+								<Typography variant="h6" sx={{ p: 1 }}>
+									Anime Themes
+								</Typography>
+								<Divider />
+								<BarChart
+									xAxis={[
+										{
+											data: themesData.map(
+												(themeData) => themeData.theme
+											),
+											scaleType: "band",
+										},
+									]}
+									series={[
+										{
+											data: themesData.map(
+												(themeData) => themeData.count
+											),
+										},
+									]}
+									height={350}
+								/>
+							</Paper>
+						</Grid>
+					)}
+
 					<Grid item xs={12} style={{ width: "100%" }}>
 						<Paper>
 							<Typography variant="h6" sx={{ p: 1 }}>
